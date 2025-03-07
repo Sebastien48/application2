@@ -9,25 +9,11 @@ class Accueil extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          "Artix - Accueil",
-          style: GoogleFonts.montserrat(
-            fontWeight: FontWeight.bold,
-            fontSize: 22,
-          ),
-        ),
+        title: const Text("Accueil"),
+        leading: Image.asset('assets/images/aaa.jpg'),
         backgroundColor: const Color(0xFF1569AD),
         elevation: 0,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.search),
-            onPressed: () {},
-          ),
-          IconButton(
-            icon: const Icon(Icons.notifications_none),
-            onPressed: () {},
-          ),
-        ],
+       // actions: [IconButton(icon: const Icon(Icons.person), onPressed: () {})],
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -38,33 +24,30 @@ class Accueil extends StatelessWidget {
             _buildWelcomeText(),
             const SizedBox(height: 20),
             _buildCategorySection(
-              'Musée Artix',
-              'https://images.unsplash.com/photo-1566554201485-deebdb9d01f3?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
-              "Explorez l'univers d'Artix avec une collection unique d'œuvres."
-            ),
-            _buildCategorySection(
+              context,
               'Réservation de Salles',
               'https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
               'Louez une salle pour vos événements et profitez d\'un espace moderne.',
+              '/inforamtion',
             ),
             _buildCategorySection(
+              context,
+              'Musée Artix',
+              'https://images.unsplash.com/photo-1505373877841-8d25f7d46678?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
+              "Explorez l'univers d'Artix avec une collection unique d'œuvres.",
+              '/information2',
+            ),
+            _buildCategorySection(
+              context,
               'Bibliothèque',
               'https://images.unsplash.com/photo-1521587760476-6c12a4b040da?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
               'Accédez à une riche collection de livres sur Artix et plus encore.',
+              '/information3',
             ),
-            const SizedBox(height: 20),
-            _buildQuickAccessButtons(context),
-            const SizedBox(height: 30),
-            _buildUpcomingEvents(),
           ],
         ),
       ),
       bottomNavigationBar: _buildBottomNavigationBar(context),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: const Color(0xFF1569AD),
-        child: const Icon(Icons.add),
-        onPressed: () {},
-      ),
     );
   }
 
@@ -73,20 +56,17 @@ class Accueil extends StatelessWidget {
       children: [
         Container(
           height: 220,
-          decoration: const BoxDecoration(
-            image: DecorationImage(
-              image: NetworkImage('https://images.unsplash.com/photo-1559511260-66a654ae982a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80'),
-              fit: BoxFit.cover,
+          decoration: BoxDecoration(
+            image: const DecorationImage(
+              image: AssetImage('assets/images/atrix.jpg'),
+              fit: BoxFit.fitHeight,
             ),
           ),
           foregroundDecoration: BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
-              colors: [
-                Colors.transparent,
-                Colors.black.withOpacity(0.7),
-              ],
+              colors: [Colors.transparent, Colors.black.withOpacity(0.7)],
             ),
           ),
         ),
@@ -106,17 +86,13 @@ class Accueil extends StatelessWidget {
               ),
               const SizedBox(height: 5),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 5,
+                ),
                 decoration: BoxDecoration(
                   color: const Color(0xFF1569AD),
                   borderRadius: BorderRadius.circular(20),
-                ),
-                child: Text(
-                  "Exposition en cours",
-                  style: GoogleFonts.montserrat(
-                    color: Colors.white,
-                    fontSize: 12,
-                  ),
                 ),
               ),
             ],
@@ -142,10 +118,10 @@ class Accueil extends StatelessWidget {
           ),
           const SizedBox(height: 10),
           Text(
-            "Louez des salles pour vos événements, accédez à la bibliothèque et explorez le musée.",
+            "L'appli qui vous facilite sur vos gestions d'événement",
             style: GoogleFonts.montserrat(
               fontSize: 16,
-              color: Colors.black54,
+              color: const Color.fromARGB(137, 8, 8, 8),
               height: 1.5,
             ),
             textAlign: TextAlign.center,
@@ -156,9 +132,11 @@ class Accueil extends StatelessWidget {
   }
 
   Widget _buildCategorySection(
+    BuildContext context, // Add context parameter
     String title,
     String imageUrl,
     String description,
+    String route,
   ) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 16.0),
@@ -188,16 +166,18 @@ class Accueil extends StatelessWidget {
                 height: 180,
                 width: double.infinity,
                 fit: BoxFit.cover,
-                placeholder: (context, url) => Container(
-                  height: 180,
-                  color: Colors.grey[200],
-                  child: const Center(child: CircularProgressIndicator()),
-                ),
-                errorWidget: (context, url, error) => Container(
-                  height: 180,
-                  color: Colors.grey[200],
-                  child: const Icon(Icons.error),
-                ),
+                placeholder:
+                    (context, url) => Container(
+                      height: 180,
+                      color: Colors.grey[200],
+                      child: const Center(child: CircularProgressIndicator()),
+                    ),
+                errorWidget:
+                    (context, url, error) => Container(
+                      height: 180,
+                      color: Colors.grey[200],
+                      child: const Icon(Icons.error),
+                    ),
               ),
             ),
             Padding(
@@ -227,7 +207,9 @@ class Accueil extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pushNamed(context, route);
+                        },
                         child: Row(
                           children: [
                             Text(
@@ -249,233 +231,6 @@ class Accueil extends StatelessWidget {
                   ),
                 ],
               ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildQuickAccessButtons(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            "Accès rapide",
-            style: GoogleFonts.montserrat(
-              fontSize: 22,
-              fontWeight: FontWeight.bold,
-              color: const Color(0xFF1569AD),
-            ),
-          ),
-          const SizedBox(height: 16),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              _buildAccessButtonSquare(
-                context,
-                Icons.event,
-                "Réserver",
-                '/reservation',
-              ),
-              _buildAccessButtonSquare(
-                context,
-                Icons.library_books,
-                "Bibliothèque",
-                '/bibliotheque',
-              ),
-              _buildAccessButtonSquare(
-                context,
-                Icons.museum,
-                "Musée",
-                '/musee',
-              ),
-              _buildAccessButtonSquare(
-                context,
-                Icons.info,
-                "Infos",
-                '/info',
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildUpcomingEvents() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            "Événements à venir",
-            style: GoogleFonts.montserrat(
-              fontSize: 22,
-              fontWeight: FontWeight.bold,
-              color: const Color(0xFF1569AD),
-            ),
-          ),
-          const SizedBox(height: 16),
-          SizedBox(
-            height: 200,
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              children: [
-                _buildEventCard(
-                  "https://images.unsplash.com/photo-1540575467063-178a50c2df87?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-                  "Exposition: Art Moderne",
-                  "12 Mars 2025",
-                ),
-                _buildEventCard(
-                  "https://images.unsplash.com/photo-1505373877841-8d25f7d46678?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-                  "Concert: Jazz Quartet",
-                  "17 Mars 2025",
-                ),
-                _buildEventCard(
-                  "https://images.unsplash.com/photo-1517457373958-b7bdd4587205?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-                  "Atelier: Sculpture",
-                  "24 Mars 2025",
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildEventCard(String imageUrl, String title, String date) {
-    return Container(
-      width: 200,
-      margin: const EdgeInsets.only(right: 16, bottom: 8),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(15),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.15),
-            spreadRadius: 1,
-            blurRadius: 6,
-            offset: const Offset(0, 3),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          ClipRRect(
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(15),
-              topRight: Radius.circular(15),
-            ),
-            child: CachedNetworkImage(
-              imageUrl: imageUrl,
-              height: 120,
-              width: double.infinity,
-              fit: BoxFit.cover,
-              placeholder: (context, url) => Container(
-                height: 120,
-                color: Colors.grey[200],
-                child: const Center(child: CircularProgressIndicator()),
-              ),
-              errorWidget: (context, url, error) => Container(
-                height: 120,
-                color: Colors.grey[200],
-                child: const Icon(Icons.error),
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: GoogleFonts.montserrat(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 14,
-                  ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                const SizedBox(height: 4),
-                Row(
-                  children: [
-                    const Icon(
-                      Icons.calendar_today,
-                      size: 14,
-                      color: Colors.grey,
-                    ),
-                    const SizedBox(width: 4),
-                    Text(
-                      date,
-                      style: GoogleFonts.montserrat(
-                        color: Colors.grey,
-                        fontSize: 12,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildAccessButtonSquare(
-    BuildContext context,
-    IconData icon,
-    String label,
-    String route,
-  ) {
-    return InkWell(
-      onTap: () => Navigator.pushNamed(context, route),
-      child: Container(
-        width: 80,
-        height: 90,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(12),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.15),
-              spreadRadius: 1,
-              blurRadius: 6,
-              offset: const Offset(0, 3),
-            ),
-          ],
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                color: const Color(0xFF1569AD).withOpacity(0.1),
-                shape: BoxShape.circle,
-              ),
-              child: Icon(
-                icon,
-                color: const Color(0xFF1569AD),
-                size: 24,
-              ),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              label,
-              style: GoogleFonts.montserrat(
-                fontSize: 12,
-                fontWeight: FontWeight.w500,
-                color: Colors.black87,
-              ),
-              textAlign: TextAlign.center,
             ),
           ],
         ),

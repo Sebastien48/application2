@@ -18,9 +18,6 @@ dependencies:
   cached_network_image: ^3.3.0
 
 
-
-
-
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -29,5 +26,10 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
+    - assets/images/atrix.jpg
     - assets/images/aaa.jpg
+  
    
+    - assets/images/aaz.jpg
+    - assets/images/bb.jpg
+

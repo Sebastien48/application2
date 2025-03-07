@@ -7,6 +7,11 @@ import 'pages/login_page.dart';
 import 'pages/signup_page.dart';
 import 'pages/Annonce.dart';
 import 'pages/Reservation.dart';
+import 'pages/information.dart';
+import 'pages/information3.dart';
+import 'pages/information2.dart';
+import 'pages/motdepasse.dart';
+import 'pages/reset_password.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,12 +31,11 @@ class MyApp extends StatelessWidget {
           seedColor: const Color.fromARGB(255, 243, 82, 33),
           brightness: Brightness.light,
           primary: const Color(0xFF1569AD),
-          secondary: const Color.fromARGB(185, 27, 42, 43),
+          secondary: const Color.fromARGB(217, 1, 170, 182),
           tertiary: const Color.fromARGB(144, 166, 174, 183),
           onSecondary: Colors.white,
         ),
       ),
-
       initialRoute: '/',
       routes: {
         '/': (context) => const SplashScreen(),
@@ -42,6 +46,11 @@ class MyApp extends StatelessWidget {
         '/annonce': (context) => const AnnoncesPage(),
         '/reservation': (context) => const ReservationPage(),
         '/parametre': (context) => const ParametresPage(),
+        '/inforamtion': (context) => const information(),
+        '/information2': (context) => const InformationPage(),
+        '/information3': (context) => const Information3Page(),
+        '/motdepasse': (context) => const MotdepassePage(),
+        '/resetpassword': (context) => const ResetPasswordPage(),
       },
     );
   }
@@ -115,14 +124,6 @@ class _SplashScreenState extends State<SplashScreen>
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text(
-                  "Bienvenue dans Artix",
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                ),
                 Image.asset('assets/images/aaa.jpg', height: 100),
                 const SizedBox(height: 20),
               ],

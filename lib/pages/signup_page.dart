@@ -10,7 +10,7 @@ class SignUpPage extends StatefulWidget {
 class _SignUpPageState extends State<SignUpPage> {
   final TextEditingController fullNameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
-  final TextEditingController phoneController = TextEditingController();
+  final TextEditingController utilisateurController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController confirmPasswordController =
       TextEditingController();
@@ -22,7 +22,7 @@ class _SignUpPageState extends State<SignUpPage> {
       isButtonEnabled =
           fullNameController.text.isNotEmpty &&
           emailController.text.isNotEmpty &&
-          phoneController.text.isNotEmpty &&
+          utilisateurController.text.isNotEmpty &&
           passwordController.text.isNotEmpty &&
           confirmPasswordController.text.isNotEmpty;
     });
@@ -33,7 +33,7 @@ class _SignUpPageState extends State<SignUpPage> {
     super.initState();
     fullNameController.addListener(_updateButtonState);
     emailController.addListener(_updateButtonState);
-    phoneController.addListener(_updateButtonState);
+    utilisateurController.addListener(_updateButtonState);
     passwordController.addListener(_updateButtonState);
     confirmPasswordController.addListener(_updateButtonState);
   }
@@ -42,7 +42,7 @@ class _SignUpPageState extends State<SignUpPage> {
   void dispose() {
     fullNameController.dispose();
     emailController.dispose();
-    phoneController.dispose();
+    utilisateurController.dispose();
     passwordController.dispose();
     confirmPasswordController.dispose();
     super.dispose();
@@ -96,10 +96,10 @@ class _SignUpPageState extends State<SignUpPage> {
                 ),
                 const SizedBox(height: 20),
                 TextField(
-                  controller: phoneController,
+                  controller: utilisateurController,
                   decoration: const InputDecoration(
-                    prefixIcon: Icon(Icons.phone),
-                    labelText: 'Téléphone',
+                    prefixIcon: Icon(Icons.person), // Changement de l'icône
+                    labelText: "Nom d'utilisateur",
                     border: OutlineInputBorder(),
                   ),
                 ),

@@ -14,11 +14,13 @@ class ReservationPage extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: const [
-            // Add content for reservations here...
+            
           ],
         ),
       ),
+    
       bottomNavigationBar: _buildBottomNavigationBar(context),
+      
     );
   }
 }
@@ -56,3 +58,4 @@ Widget _buildBottomNavigationBar(BuildContext context) {
     ],
   );
 }
+

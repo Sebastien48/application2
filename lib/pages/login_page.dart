@@ -8,7 +8,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final TextEditingController emailController = TextEditingController();
+  final TextEditingController utilisateurController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   bool isButtonEnabled = false;
   bool isPasswordVisible = false;
@@ -16,20 +16,21 @@ class _LoginPageState extends State<LoginPage> {
   void _updateButtonState() {
     setState(() {
       isButtonEnabled =
-          emailController.text.isNotEmpty && passwordController.text.isNotEmpty;
+          utilisateurController.text.isNotEmpty &&
+          passwordController.text.isNotEmpty;
     });
   }
 
   @override
   void initState() {
     super.initState();
-    emailController.addListener(_updateButtonState);
+    utilisateurController.addListener(_updateButtonState);
     passwordController.addListener(_updateButtonState);
   }
 
   @override
   void dispose() {
-    emailController.dispose();
+    utilisateurController.dispose();
     passwordController.dispose();
     super.dispose();
   }
@@ -37,7 +38,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFD1C4E9), // Fond violet clair
+      backgroundColor: const Color.fromARGB(177, 44, 191, 201), 
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(20.0),
@@ -68,15 +69,15 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 const SizedBox(height: 20),
                 TextField(
-                  controller: emailController,
+                  controller: utilisateurController,
                   decoration: InputDecoration(
-                    labelText: "Email",
+                    labelText: "nom d'utilisateur",
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    prefixIcon: const Icon(Icons.email),
+                    prefixIcon: const Icon(Icons.person),
                   ),
-                  keyboardType: TextInputType.emailAddress,
+                  keyboardType: TextInputType.text,
                 ),
                 const SizedBox(height: 15),
                 TextField(
@@ -104,36 +105,44 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 const SizedBox(height: 20),
                 ElevatedButton(
-                  onPressed: isButtonEnabled
-                    ? () {
-                      Navigator.pushNamed(context, '/home');
-                    }
-                    : null,
+                  onPressed:
+                      isButtonEnabled
+                          ? () {
+                            Navigator.pushNamed(context, '/home');
+                          }
+                          : null,
                   style: ElevatedButton.styleFrom(
-                  foregroundColor: Colors.white,
-                  backgroundColor:
-                    isButtonEnabled ? Colors.blue : Colors.grey,
-                  disabledBackgroundColor: Colors.grey,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 40,
-                    vertical: 15,
-                  ),
+                    foregroundColor: Colors.white,
+                    backgroundColor:
+                        isButtonEnabled ? Colors.blue : Colors.grey,
+                    disabledBackgroundColor: Colors.grey,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 40,
+                      vertical: 15,
+                    ),
                   ),
                   child: const Text(
-                  "Se connecter",
-                  style: TextStyle(fontSize: 16),
+                    "Se connecter",
+                    style: TextStyle(fontSize: 16),
                   ),
                 ),
-                
+
                 const SizedBox(height: 10),
                 TextButton(
                   onPressed: () {
                     Navigator.pushNamed(context, '/signup');
                   },
                   child: const Text("Pas de compte ? Inscrivez-vous"),
+                ),
+                const SizedBox(height: 10),
+                TextButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/motdepasse');
+                  },
+                  child: const Text("mot de passe oublié"),
                 ),
               ],
             ),
