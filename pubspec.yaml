@@ -13,6 +13,7 @@ dependencies:
   cupertino_icons: ^1.0.8
   flutter_svg: ^0.22.0
   flutter_svg_provider: ^0.1.0
+  supabase_flutter: ^2.0.0
   
   google_fonts: ^6.1.0
   cached_network_image: ^3.3.0

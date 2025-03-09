@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:supabase_flutter/supabase_flutter.dart';
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
@@ -8,7 +8,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final TextEditingController utilisateurController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   bool isButtonEnabled = false;
   bool isPasswordVisible = false;
@@ -16,7 +16,7 @@ class _LoginPageState extends State<LoginPage> {
   void _updateButtonState() {
     setState(() {
       isButtonEnabled =
-          utilisateurController.text.isNotEmpty &&
+          emailController.text.isNotEmpty &&
           passwordController.text.isNotEmpty;
     });
   }
@@ -24,13 +24,13 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
-    utilisateurController.addListener(_updateButtonState);
+    emailController.addListener(_updateButtonState);
     passwordController.addListener(_updateButtonState);
   }
 
   @override
   void dispose() {
-    utilisateurController.dispose();
+    emailController.dispose();
     passwordController.dispose();
     super.dispose();
   }
@@ -69,13 +69,13 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 const SizedBox(height: 20),
                 TextField(
-                  controller: utilisateurController,
+                  controller: emailController,
                   decoration: InputDecoration(
-                    labelText: "nom d'utilisateur",
+                    labelText: "Email",
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    prefixIcon: const Icon(Icons.person),
+                    prefixIcon: const Icon(Icons.email),
                   ),
                   keyboardType: TextInputType.text,
                 ),

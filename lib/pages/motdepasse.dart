@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
 class MotdepassePage extends StatelessWidget {
-  const MotdepassePage({Key? key}) : super(key: key);
+  const MotdepassePage({super.key});
 
   @override
   Widget build(BuildContext context) {
     final TextEditingController emailController = TextEditingController();
-    final TextEditingController usernameController = TextEditingController();
+    //final TextEditingController usernameController = TextEditingController();
 
     return Scaffold(
       appBar: AppBar(
@@ -42,14 +42,14 @@ class MotdepassePage extends StatelessWidget {
                   ),
                   const SizedBox(height: 20),
                   const Text(
-                    "Entrez votre adresse e-mail et votre nom d'utilisateur pour réinitialiser votre mot de passe.",
+                    "Entrez votre adresse e-mail et votre Email pour réinitialiser votre mot de passe.",
                     style: TextStyle(fontSize: 16),
                   ),
                   const SizedBox(height: 20),
                   TextField(
                     controller: emailController,
                     decoration: InputDecoration(
-                      labelText: "Adresse e-mail",
+                      labelText: "Email",
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
@@ -57,25 +57,14 @@ class MotdepassePage extends StatelessWidget {
                     ),
                     keyboardType: TextInputType.emailAddress,
                   ),
-                  const SizedBox(height: 20),
-                  TextField(
-                    controller: usernameController,
-                    decoration: InputDecoration(
-                      labelText: "Nom d'utilisateur",
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      prefixIcon: const Icon(Icons.person),
-                    ),
-                    keyboardType: TextInputType.text,
-                  ),
+
                   const SizedBox(height: 20),
                   ElevatedButton(
                     onPressed: () {
                       // Implémentez la logique de vérification ici
                       final email = emailController.text;
-                      final username = usernameController.text;
-                      if (email.isNotEmpty && username.isNotEmpty) {
+
+                      if (email.isNotEmpty) {
                         // Passez à la page de réinitialisation du mot de passe
                         Navigator.pushNamed(context, '/resetpassword');
                       } else {

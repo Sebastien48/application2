@@ -13,7 +13,14 @@ class Accueil extends StatelessWidget {
         leading: Image.asset('assets/images/aaa.jpg'),
         backgroundColor: const Color(0xFF1569AD),
         elevation: 0,
-       // actions: [IconButton(icon: const Icon(Icons.person), onPressed: () {})],
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.settings),
+            onPressed: () {
+              Navigator.pushNamed(context, '/parametre');
+            },
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: Column(
