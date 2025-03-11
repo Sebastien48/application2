@@ -1,3 +1,4 @@
+// @dart=2.17
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -17,15 +18,15 @@ class _LoginPageState extends State<LoginPage> {
   Future<void> _login() async {
     if (_formKey.currentState!.validate()) {
       try {
-        final response =
-            await Supabase.instance.client
-                .from('utilisateurs')
-                .select()
-                .eq('email', emailController.text)
-                .single(); // Récupère l'utilisateur unique
+        final response = await Supabase.instance.client
+            .from('utilisateurs')
+            .select()
+            .eq('email', emailController.text)
+            .single()
+            .maybeSingle(); // Exécute la requête
 
-        // ignore: unnecessary_null_comparison
         if (response == null) {
+
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
               content: Text('Aucun utilisateur trouvé avec cet email'),
@@ -35,7 +36,10 @@ class _LoginPageState extends State<LoginPage> {
           return;
         }
 
-        if (response['mot_de_passe'] == passwordController.text) {
+              final data = response as Map<String, dynamic>;
+
+
+        if (data['mot_de_passe'] == passwordController.text) {
           // Redirection vers la page d'accueil
           Navigator.pushReplacementNamed(context, '/home');
         } else {
@@ -144,8 +148,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   const SizedBox(height: 20),
                   ElevatedButton(
-                    onPressed:
-                        _login, // ✅ Exécute _login() au lieu de passer directement à /home
+                    onPressed: _login,
                     style: ElevatedButton.styleFrom(
                       foregroundColor: Colors.white,
                       backgroundColor: Colors.blue,
@@ -184,4 +187,8 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
+}
+
+extension on PostgrestResponse {
+  get error => null;
 }

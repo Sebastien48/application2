@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+
 // Importation des pages
 import 'pages/Accueil.dart';
 import 'pages/parametre.dart';
 import 'pages/login_page.dart';
 import 'pages/signup_page.dart';
 import 'pages/Annonce.dart';
-import 'pages/Reservation.dart';
+// import 'pages/Reservation.dart';
 import 'pages/information.dart';
 import 'pages/information3.dart';
 import 'pages/information2.dart';
@@ -28,7 +29,7 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -50,13 +51,11 @@ class MyApp extends StatelessWidget {
         '/': (context) => const SplashScreen(),
         '/login': (context) => const LoginPage(),
         '/signup': (context) => const SignUpPage(),
-        '/home':(context) =>const Accueil(), // Ajoutez cette ligne pour la route '/home'
-        '/parametre':(context) => const ParametresPage(),
-             
+        '/home': (context) => const Accueil(),
+        '/parametre': (context) => const ParametresPage(),
         '/annonce': (context) => const AnnoncesPage(),
-        '/reservation': (context) => const ReservationPage(),
-        '/information':(context) => const information(),
-           
+        // '/reservation': (context) => const ReservationPage(),
+        '/information': (context) => const information(),
         '/information2': (context) => const InformationPage(),
         '/information3': (context) => const Information3Page(),
         '/motdepasse': (context) => const MotdepassePage(),

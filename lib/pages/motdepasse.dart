@@ -1,3 +1,4 @@
+// @dart=2.17
 import 'package:flutter/material.dart';
 
 class MotdepassePage extends StatelessWidget {
@@ -57,7 +58,6 @@ class MotdepassePage extends StatelessWidget {
                     ),
                     keyboardType: TextInputType.emailAddress,
                   ),
-
                   const SizedBox(height: 20),
                   ElevatedButton(
                     onPressed: () {

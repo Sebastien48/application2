@@ -1,4 +1,6 @@
+// @dart=2.17
 import 'package:flutter/material.dart';
+
 class Information3Page extends StatelessWidget {
   const Information3Page({super.key});
 

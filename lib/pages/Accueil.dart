@@ -1,6 +1,6 @@
+// @dart=2.17
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 
 class Accueil extends StatelessWidget {
   const Accueil({super.key});
@@ -10,17 +10,17 @@ class Accueil extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Accueil"),
-        leading: Image.asset('assets/images/aaa.jpg'),
+        leading: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Image.asset(
+            'assets/images/aaa.jpg', // Image locale
+            width: 40,
+            height: 40,
+            fit: BoxFit.contain,
+          ),
+        ),
         backgroundColor: const Color(0xFF1569AD),
         elevation: 0,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.settings),
-            onPressed: () {
-              Navigator.pushNamed(context, '/parametre');
-            },
-          ),
-        ],
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -30,31 +30,11 @@ class Accueil extends StatelessWidget {
             const SizedBox(height: 20),
             _buildWelcomeText(),
             const SizedBox(height: 20),
-            _buildCategorySection(
-              context,
-              'Réservation de Salles',
-              'https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
-              'Louez une salle pour vos événements et profitez d\'un espace moderne.',
-              '/inforamtion',
-            ),
-            _buildCategorySection(
-              context,
-              'Musée Artix',
-              'https://images.unsplash.com/photo-1505373877841-8d25f7d46678?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
-              "Explorez l'univers d'Artix avec une collection unique d'œuvres.",
-              '/information2',
-            ),
-            _buildCategorySection(
-              context,
-              'Bibliothèque',
-              'https://images.unsplash.com/photo-1521587760476-6c12a4b040da?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
-              'Accédez à une riche collection de livres sur Artix et plus encore.',
-              '/information3',
-            ),
+            _buildSalleReservationSection(context),
+            _buildBottomNavigationBar(context),
           ],
         ),
       ),
-      bottomNavigationBar: _buildBottomNavigationBar(context),
     );
   }
 
@@ -63,17 +43,10 @@ class Accueil extends StatelessWidget {
       children: [
         Container(
           height: 220,
-          decoration: BoxDecoration(
-            image: const DecorationImage(
-              image: AssetImage('assets/images/atrix.jpg'),
-              fit: BoxFit.fitHeight,
-            ),
-          ),
-          foregroundDecoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [Colors.transparent, Colors.black.withOpacity(0.7)],
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/images/atrix.jpg'), // Image locale
+              fit: BoxFit.cover,
             ),
           ),
         ),
@@ -125,10 +98,10 @@ class Accueil extends StatelessWidget {
           ),
           const SizedBox(height: 10),
           Text(
-            "L'appli qui vous facilite sur vos gestions d'événement",
+            "L'application qui vous facilite la réservation de vos salles d'évènement",
             style: GoogleFonts.montserrat(
               fontSize: 16,
-              color: const Color.fromARGB(137, 8, 8, 8),
+              color: Colors.black87,
               height: 1.5,
             ),
             textAlign: TextAlign.center,
@@ -138,161 +111,194 @@ class Accueil extends StatelessWidget {
     );
   }
 
-  Widget _buildCategorySection(
-    BuildContext context, // Add context parameter
-    String title,
-    String imageUrl,
-    String description,
-    String route,
-  ) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 16.0),
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(15),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.2),
-              spreadRadius: 1,
-              blurRadius: 6,
-              offset: const Offset(0, 3),
-            ),
-          ],
+  Widget _buildBottomNavigationBar(BuildContext context) {
+    return BottomNavigationBar(
+      backgroundColor: const Color.fromARGB(255, 234, 229, 224),
+      selectedItemColor: const Color.fromARGB(246, 68, 137, 255),
+      unselectedItemColor: Colors.black,
+      currentIndex: 0, // Indice de la page actuelle
+      onTap: (index) {
+        switch (index) {
+          case 0:
+            Navigator.pushNamed(context, '/home');
+            break;
+          case 1:
+            Navigator.pushNamed(context, '/annonce');
+            break;
+          case 2:
+            Navigator.pushNamed(context, '/reservation');
+            break;
+          case 3:
+            Navigator.pushNamed(context, '/parametre');
+            break;
+        }
+      },
+      items: const [
+        BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Accueil'),
+        BottomNavigationBarItem(icon: Icon(Icons.info), label: 'Annonces'),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.event_available),
+          label: 'Réservation',
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ClipRRect(
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(15),
-                topRight: Radius.circular(15),
-              ),
-              child: CachedNetworkImage(
-                imageUrl: imageUrl,
-                height: 180,
-                width: double.infinity,
-                fit: BoxFit.cover,
-                placeholder:
-                    (context, url) => Container(
-                      height: 180,
-                      color: Colors.grey[200],
-                      child: const Center(child: CircularProgressIndicator()),
-                    ),
-                errorWidget:
-                    (context, url, error) => Container(
-                      height: 180,
-                      color: Colors.grey[200],
-                      child: const Icon(Icons.error),
-                    ),
-              ),
+        BottomNavigationBarItem(
+            icon: Icon(Icons.settings), label: 'Paramètres'),
+      ],
+    );
+  }
+
+  Widget _buildSalleReservationSection(BuildContext context) {
+    List<Map<String, String>> salles = [
+      {
+        "nom": "Hôtel Ivoire",
+        "image":
+            "https://m.ahstatic.com/is/image/accorhotels/aja_p_4410-81:8by10?fmt=jpg&op_usm=1.75,0.3,2,0&resMode=sharp2&iccEmbed=true&icc=sRGB&dpr=on,1.5&wid=335&hei=418&qlt=80",
+        "description":
+            "Salle luxueuse avec une vue magnifique sur la lagune Ébrié."
+      },
+      {
+        "nom": "Palais de la Culture",
+        "image":
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjR_Sg5Y5r9gjtSfu3Fh0agrP5IzCe9mNn7g&s",
+        "description":
+            "Un espace emblématique pour les grands événements artistiques et culturels."
+      },
+      {
+        "nom": "Radisson Blu Abidjan",
+        "image":
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQJUO0JKXInBek80qvpKn6ju5wtkaZBMkty5g&s",
+        "description":
+            "Salle de conférence moderne adaptée aux séminaires et cocktails."
+      },
+      {
+        "nom": "Mangalis Hotel group",
+        "image":
+            "https://www.mangalis.com/wp-content/uploads/sites/166/2024/11/5G8A4251-HDR-800x533.jpg",
+        "description":
+            "Lieu parfait pour les événements professionnels et networking."
+      },
+      {
+        "nom": "Noom Hotel",
+        "image":
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSl7wzLxXjRRY2juK2QkIow8qDaa6gygqFCKQ&s",
+        "description":
+            "Une salle haut de gamme pour vos réunions et conférences privées."
+      }
+    ];
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "Salles disponibles",
+            style: GoogleFonts.montserrat(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: const Color(0xFF1569AD),
             ),
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    title,
-                    style: GoogleFonts.montserrat(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: const Color(0xFF1569AD),
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    description,
-                    style: GoogleFonts.montserrat(
-                      fontSize: 16,
-                      color: Colors.black54,
-                      height: 1.5,
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
+          ),
+          const SizedBox(height: 10),
+          Column(
+            children: salles.map((salle) {
+              return Card(
+                elevation: 4,
+                margin: const EdgeInsets.symmetric(vertical: 10),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: InkWell(
+                  onTap: () {
+                    _naviguerVersReservation(context, salle["nom"]!);
+                  },
+                  child: Row(
                     children: [
-                      TextButton(
-                        onPressed: () {
-                          Navigator.pushNamed(context, route);
-                        },
-                        child: Row(
-                          children: [
-                            Text(
-                              "En savoir plus",
-                              style: GoogleFonts.montserrat(
-                                color: const Color(0xFF1569AD),
-                                fontWeight: FontWeight.w600,
+                      ClipRRect(
+                        borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(10),
+                          bottomLeft: Radius.circular(10),
+                        ),
+                        child: Image.network(
+                          salle["image"]!,
+                          width: 120,
+                          height: 100,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                salle["nom"]!,
+                                style: GoogleFonts.montserrat(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
-                            ),
-                            const Icon(
-                              Icons.arrow_forward,
-                              size: 16,
-                              color: Color(0xFF1569AD),
-                            ),
-                          ],
+                              const SizedBox(height: 5),
+                              Text(
+                                salle["description"]!,
+                                style: GoogleFonts.montserrat(
+                                  fontSize: 14,
+                                  color: Colors.black54,
+                                ),
+                              ),
+                              const SizedBox(height: 10),
+                              Align(
+                                alignment: Alignment.centerRight,
+                                child: ElevatedButton(
+                                  onPressed: () {
+                                    _naviguerVersReservation(
+                                        context, salle["nom"]!);
+                                  },
+                                  child: const Text("Réserver"),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ],
                   ),
-                ],
-              ),
-            ),
-          ],
-        ),
+                ),
+              );
+            }).toList(),
+          ),
+        ],
       ),
     );
   }
 
-  Widget _buildBottomNavigationBar(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.2),
-            spreadRadius: 1,
-            blurRadius: 8,
-            offset: const Offset(0, -3),
-          ),
-        ],
+  void _naviguerVersReservation(BuildContext context, String salle) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ReservationPage(salle: salle),
       ),
-      child: BottomNavigationBar(
-        backgroundColor: Colors.white,
-        selectedItemColor: const Color(0xFF1569AD),
-        unselectedItemColor: Colors.grey,
-        type: BottomNavigationBarType.fixed,
-        elevation: 0,
-        currentIndex: 0,
-        onTap: (index) {
-          switch (index) {
-            case 0:
-              Navigator.pushNamed(context, '/home');
-              break;
-            case 1:
-              Navigator.pushNamed(context, '/annonce');
-              break;
-            case 2:
-              Navigator.pushNamed(context, '/reservation');
-              break;
-            case 3:
-              Navigator.pushNamed(context, '/parametre');
-              break;
-          }
-        },
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Accueil'),
-          BottomNavigationBarItem(icon: Icon(Icons.info), label: 'Annonces'),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.event_available),
-            label: 'Réservation',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'Paramètres',
-          ),
-        ],
+    );
+  }
+}
+
+class ReservationPage extends StatelessWidget {
+  final String salle;
+
+  const ReservationPage({super.key, required this.salle});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Réservation - $salle"),
+        backgroundColor: const Color(0xFF1569AD),
+      ),
+      body: Center(
+        child: Text(
+          "Page de réservation pour $salle",
+          style: GoogleFonts.montserrat(fontSize: 20),
+        ),
       ),
     );
   }

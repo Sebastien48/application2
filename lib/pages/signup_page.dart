@@ -20,8 +20,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
   void _updateButtonState() {
     setState(() {
-      isButtonEnabled =
-          _fullNameController.text.isNotEmpty &&
+      isButtonEnabled = _fullNameController.text.isNotEmpty &&
           _emailController.text.isNotEmpty &&
           _passwordController.text.isNotEmpty &&
           _confirmPasswordController.text.isNotEmpty;
@@ -46,7 +45,6 @@ class _SignUpPageState extends State<SignUpPage> {
     super.dispose();
   }
 
-  //
   Future<void> _signUp() async {
     if (_formKey.currentState!.validate()) {
       if (_passwordController.text != _confirmPasswordController.text) {
@@ -67,13 +65,13 @@ class _SignUpPageState extends State<SignUpPage> {
         );
 
         if (response.user != null) {
-          // ⚠️ Supprime la vérification par email et connecte directement l'utilisateur
+          // Connecte directement l'utilisateur sans vérification par email
           await Supabase.instance.client.auth.signInWithPassword(
             email: _emailController.text,
             password: _passwordController.text,
           );
 
-          // Insérer l'utilisateur dans la base de données
+          // Insère l'utilisateur dans la base de données
           await Supabase.instance.client.from('utilisateurs').insert({
             'id': response.user!.id,
             'nom_complet': _fullNameController.text,
@@ -81,7 +79,7 @@ class _SignUpPageState extends State<SignUpPage> {
             'mot_de_passe': _passwordController.text,
           });
 
-          // Rediriger vers la page d'accueil
+          // Redirige vers la page d'accueil
           if (mounted) {
             Navigator.pushReplacementNamed(context, '/home');
           }
@@ -171,7 +169,6 @@ class _SignUpPageState extends State<SignUpPage> {
                         if (value == null || value.isEmpty) {
                           return 'Veuillez entrer votre email';
                         }
-                        // Simple email validation
                         if (!value.contains('@') || !value.contains('.')) {
                           return 'Veuillez entrer un email valide';
                         }
