@@ -1,9 +1,37 @@
-// @dart=2.17
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class Accueil extends StatelessWidget {
+class Accueil extends StatefulWidget {
   const Accueil({super.key});
+
+  @override
+  _AccueilState createState() => _AccueilState();
+}
+
+class _AccueilState extends State<Accueil> {
+  int _selectedIndex = 0;
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+
+    switch (index) {
+      case 0:
+        Navigator.pushNamed(context, '/home');
+        break;
+      case 1:
+        Navigator.pushNamed(context, '/annonce');
+        break;
+      case 2:
+        Navigator.pushNamed(context, '/reservation');
+        break;
+      case 3:
+        Navigator.pushNamed(context, '/parametre');
+        break;
+    }
+    
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +41,7 @@ class Accueil extends StatelessWidget {
         leading: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Image.asset(
-            'assets/images/aaa.jpg', // Image locale
+            'assets/images/aaa.jpg',
             width: 40,
             height: 40,
             fit: BoxFit.contain,
@@ -31,9 +59,21 @@ class Accueil extends StatelessWidget {
             _buildWelcomeText(),
             const SizedBox(height: 20),
             _buildSalleReservationSection(context),
-            _buildBottomNavigationBar(context),
           ],
         ),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: const Color.fromARGB(255, 234, 229, 224),
+        selectedItemColor: const Color.fromARGB(246, 68, 137, 255),
+        unselectedItemColor: Colors.black,
+        currentIndex: _selectedIndex,
+        onTap: _onItemTapped,
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Accueil'),
+          BottomNavigationBarItem(icon: Icon(Icons.info), label: 'Annonces'),
+          BottomNavigationBarItem(icon: Icon(Icons.event_available), label: 'Réservation'),
+          BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Paramètres'),
+        ],
       ),
     );
   }
@@ -45,7 +85,7 @@ class Accueil extends StatelessWidget {
           height: 220,
           decoration: const BoxDecoration(
             image: DecorationImage(
-              image: AssetImage('assets/images/atrix.jpg'), // Image locale
+              image: AssetImage('assets/images/atrix.jpg'),
               fit: BoxFit.cover,
             ),
           ),
@@ -62,17 +102,6 @@ class Accueil extends StatelessWidget {
                   color: Colors.white,
                   fontSize: 28,
                   fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 5),
-              Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 10,
-                  vertical: 5,
-                ),
-                decoration: BoxDecoration(
-                  color: const Color(0xFF1569AD),
-                  borderRadius: BorderRadius.circular(20),
                 ),
               ),
             ],
@@ -111,41 +140,6 @@ class Accueil extends StatelessWidget {
     );
   }
 
-  Widget _buildBottomNavigationBar(BuildContext context) {
-    return BottomNavigationBar(
-      backgroundColor: const Color.fromARGB(255, 234, 229, 224),
-      selectedItemColor: const Color.fromARGB(246, 68, 137, 255),
-      unselectedItemColor: Colors.black,
-      currentIndex: 0, // Indice de la page actuelle
-      onTap: (index) {
-        switch (index) {
-          case 0:
-            Navigator.pushNamed(context, '/home');
-            break;
-          case 1:
-            Navigator.pushNamed(context, '/annonce');
-            break;
-          case 2:
-            Navigator.pushNamed(context, '/reservation');
-            break;
-          case 3:
-            Navigator.pushNamed(context, '/parametre');
-            break;
-        }
-      },
-      items: const [
-        BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Accueil'),
-        BottomNavigationBarItem(icon: Icon(Icons.info), label: 'Annonces'),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.event_available),
-          label: 'Réservation',
-        ),
-        BottomNavigationBarItem(
-            icon: Icon(Icons.settings), label: 'Paramètres'),
-      ],
-    );
-  }
-
   Widget _buildSalleReservationSection(BuildContext context) {
     List<Map<String, String>> salles = [
       {
@@ -156,25 +150,18 @@ class Accueil extends StatelessWidget {
             "Salle luxueuse avec une vue magnifique sur la lagune Ébrié."
       },
       {
-        "nom": "Palais de la Culture",
-        "image":
-            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjR_Sg5Y5r9gjtSfu3Fh0agrP5IzCe9mNn7g&s",
-        "description":
-            "Un espace emblématique pour les grands événements artistiques et culturels."
-      },
-      {
-        "nom": "Radisson Blu Abidjan",
-        "image":
-            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQJUO0JKXInBek80qvpKn6ju5wtkaZBMkty5g&s",
-        "description":
-            "Salle de conférence moderne adaptée aux séminaires et cocktails."
-      },
-      {
         "nom": "Mangalis Hotel group",
         "image":
             "https://www.mangalis.com/wp-content/uploads/sites/166/2024/11/5G8A4251-HDR-800x533.jpg",
         "description":
             "Lieu parfait pour les événements professionnels et networking."
+      },
+      {
+        "nom": "Palais de la Culture",
+        "image":
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjR_Sg5Y5r9gjtSfu3Fh0agrP5IzCe9mNn7g&s",
+        "description":
+            "Un espace emblématique pour les grands événements artistiques et culturels."
       },
       {
         "nom": "Noom Hotel",
@@ -191,7 +178,7 @@ class Accueil extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "Salles disponibles",
+            "Nos différentes salles",
             style: GoogleFonts.montserrat(
               fontSize: 20,
               fontWeight: FontWeight.bold,
@@ -207,62 +194,46 @@ class Accueil extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
-                child: InkWell(
-                  onTap: () {
-                    _naviguerVersReservation(context, salle["nom"]!);
-                  },
-                  child: Row(
-                    children: [
-                      ClipRRect(
-                        borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(10),
-                          bottomLeft: Radius.circular(10),
-                        ),
-                        child: Image.network(
-                          salle["image"]!,
-                          width: 120,
-                          height: 100,
-                          fit: BoxFit.cover,
+                child: Row(
+                  children: [
+                    ClipRRect(
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(10),
+                        bottomLeft: Radius.circular(10),
+                      ),
+                      child: Image.network(
+                        salle["image"]!,
+                        width: 120,
+                        height: 100,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              salle["nom"]!,
+                              style: GoogleFonts.montserrat(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(height: 5),
+                            Text(
+                              salle["description"]!,
+                              style: GoogleFonts.montserrat(
+                                fontSize: 14,
+                                color: Colors.black54,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                salle["nom"]!,
-                                style: GoogleFonts.montserrat(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              const SizedBox(height: 5),
-                              Text(
-                                salle["description"]!,
-                                style: GoogleFonts.montserrat(
-                                  fontSize: 14,
-                                  color: Colors.black54,
-                                ),
-                              ),
-                              const SizedBox(height: 10),
-                              Align(
-                                alignment: Alignment.centerRight,
-                                child: ElevatedButton(
-                                  onPressed: () {
-                                    _naviguerVersReservation(
-                                        context, salle["nom"]!);
-                                  },
-                                  child: const Text("Réserver"),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               );
             }).toList(),
@@ -272,34 +243,4 @@ class Accueil extends StatelessWidget {
     );
   }
 
-  void _naviguerVersReservation(BuildContext context, String salle) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => ReservationPage(salle: salle),
-      ),
-    );
-  }
-}
-
-class ReservationPage extends StatelessWidget {
-  final String salle;
-
-  const ReservationPage({super.key, required this.salle});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Réservation - $salle"),
-        backgroundColor: const Color(0xFF1569AD),
-      ),
-      body: Center(
-        child: Text(
-          "Page de réservation pour $salle",
-          style: GoogleFonts.montserrat(fontSize: 20),
-        ),
-      ),
-    );
-  }
 }
